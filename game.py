@@ -1,4 +1,5 @@
 from library.diceLibrary import DiceLibrary
+from time import sleep
 from sense_hat import SenseHat
 
 class DieRollingGame():
@@ -20,9 +21,9 @@ class DieRollingGame():
         
     def show_player_turn(self):
         if self.player_turn == 0:
-            self.show_message("Player 1 turn to roll the dice !")
+            self.show_message("Player 1 turn!")
         else :
-            self.show_message("Player 2 turn to roll the dice !")
+            self.show_message("Player 2 turn!")
 
     def detect_rolling_motion(self):
         x, y, z = self.sense.get_accelerometer_raw().values()
@@ -30,7 +31,7 @@ class DieRollingGame():
         y = abs(y)
         z = abs(z)
 
-        if x > 1.4 or y > 1.4 or z > 1.4:
+        if x > 1.6 or y > 1.6 or z > 1.6:
             return True
         else: 
             return False
@@ -49,7 +50,7 @@ class DieRollingGame():
         if self.player_turn == 0:
             self.player_turn = 1
         else:
-            self.player_turn = 0]
+            self.player_turn = 0
 
     def declare_winner(self):
         self.show_message("Congratulations! Player %d is the winner !" %(self.player_turn + 1))
@@ -67,9 +68,9 @@ class DieRollingGame():
                 if self.detect_rolling_motion():
                     self.dice_library.display_dice_rolling_animation(self.sense)
                     break
-            die_rolled = self.dice_library.display_random(self.sense)
+            die_rolled = self.dice_library.display_random(self.sense, 0.8)
             self.calculate_and_show_score(die_rolled)
-            if self.check_winner != -1:
+            if self.check_winner() != -1:
                 self.declare_winner()
                 # self.print_report()
                 self.player_turn = -1
