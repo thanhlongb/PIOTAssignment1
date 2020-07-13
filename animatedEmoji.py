@@ -1,4 +1,4 @@
-from emoji.emojiLibrary import EmojiLibrary
+from library.emojiLibrary import EmojiLibrary
 from sense_hat import SenseHat
 
 sense = SenseHat()
