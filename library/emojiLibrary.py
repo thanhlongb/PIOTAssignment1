@@ -1,6 +1,6 @@
 import os
 from time import sleep
-from pattern import Pattern
+from .pattern import Pattern
 from sense_hat import SenseHat
 
 class EmojiLibrary:

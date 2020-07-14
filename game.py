@@ -1,15 +1,20 @@
-from library.diceLibrary import DiceLibrary
+from time import sleep
+import csv
+import os
+from datetime import datetime
+from electronicDie import electronicDie
 from sense_hat import SenseHat
 
 class DieRollingGame():
     SCROLL_SPEED = 0.05
     TEXT_COLOUR = [100,100,100]
+    
 
     def __init__(self):
         self.players_score = [0,0]
-        self.dice_library = DiceLibrary()
         self.player_turn = 0
         self.sense = SenseHat()
+        self.electronic_die = electronicDie()
 
     def show_message(self, message):
         self.sense.show_message(message, scroll_speed=self.SCROLL_SPEED, text_colour=self.TEXT_COLOUR)
@@ -20,20 +25,9 @@ class DieRollingGame():
         
     def show_player_turn(self):
         if self.player_turn == 0:
-            self.show_message("Player 1 turn to roll the dice !")
+            self.show_message("Player 1 turn!")
         else :
-            self.show_message("Player 2 turn to roll the dice !")
-
-    def detect_rolling_motion(self):
-        x, y, z = self.sense.get_accelerometer_raw().values()
-        x = abs(x)
-        y = abs(y)
-        z = abs(z)
-
-        if x > 1.4 or y > 1.4 or z > 1.4:
-            return True
-        else: 
-            return False
+            self.show_message("Player 2 turn!")
 
     def calculate_and_show_score(self, delta_score):
         self.players_score[self.player_turn] += delta_score
@@ -49,29 +43,35 @@ class DieRollingGame():
         if self.player_turn == 0:
             self.player_turn = 1
         else:
-            self.player_turn = 0]
+            self.player_turn = 0
 
     def declare_winner(self):
         self.show_message("Congratulations! Player %d is the winner !" %(self.player_turn + 1))
         self.show_message("Game over!")
 
-    def print_report(self):
+    def print_report(self):   
+        now = datetime.now()
+        filename = "winner.csv"
+        flag = True
+        if os.path.isfile('./' + filename):
+            flag = False
+
+        with open (filename, 'a') as filedata:                            
+            writer = csv.writer(filedata, delimiter=',')
+            if flag:
+                writer.writerow(['time', 'winner_score'])
+            writer.writerow([now, self.players_score[self.player_turn]])
         
-        pass
 
     def run(self):
         self.show_instruction()
         while self.player_turn != -1:
             self.show_player_turn()
-            while True:
-                if self.detect_rolling_motion():
-                    self.dice_library.display_dice_rolling_animation(self.sense)
-                    break
-            die_rolled = self.dice_library.display_random(self.sense)
-            self.calculate_and_show_score(die_rolled)
-            if self.check_winner != -1:
+            die_num_rolled = self.electronic_die.roll_die()
+            self.calculate_and_show_score(die_num_rolled)
+            if self.check_winner() != -1:
                 self.declare_winner()
-                # self.print_report()
+                self.print_report()
                 self.player_turn = -1
             else:
                 self.change_player_turn()
