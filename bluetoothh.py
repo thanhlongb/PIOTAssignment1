@@ -6,7 +6,7 @@ from utilities.rfcommSender import RFCOMMSender
 class Bluetooth():
     def __init__(self):
         self.object = None
-        if str(sys.argv[0]) == 'Sender':
+        if str(sys.argv[1]) == 'Sender':
             try:
                 self.object = RFCOMMSender()
             except bluetooth.BluetoothError as err:

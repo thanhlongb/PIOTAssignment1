@@ -35,15 +35,15 @@ class RFCOMMSender:
                 self.sock.connect((host, port))
 
     def read_sensor_data(self):
-        self.temperature_value = sense.get_temperature()
-        self.humidity_value = sense.get_humidity()
+        self.temperature_value = self.sense.get_temperature()
+        self.humidity_value = self.sense.get_humidity()
 
     def data_within_range(self):
         return (((self.temperature_value >= self.max_temperature) & (self.temperature_value <= self.min_temperature))
                 & ((self.humidity_value >= self.max_humidity) & (self.humidity_value <= self.min_humidity)))
 
     def send_data(self):
-        data = self.temperature_value + ',' + self.humidity_value
+        data = str(self.temperature_value) + ',' + str(self.humidity_value)
         self.sock.send(data)
 
     def disconnect(self):
@@ -52,10 +52,10 @@ class RFCOMMSender:
     def execute(self):
         self.read_sensor_data()
         self.read_config()
-        if self.data_within_range():
-            self.find_and_connect_service()
-            self.send_data()
-            self.disconnect()
+        #if self.data_within_range():
+        self.find_and_connect_service()
+        self.send_data()
+        self.disconnect()
             
 
 
