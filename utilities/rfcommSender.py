@@ -39,8 +39,8 @@ class RFCOMMSender:
         self.humidity_value = self.sense.get_humidity()
 
     def data_within_range(self):
-        return (((self.temperature_value >= self.max_temperature) & (self.temperature_value <= self.min_temperature))
-                & ((self.humidity_value >= self.max_humidity) & (self.humidity_value <= self.min_humidity)))
+        return (((self.temperature_value >= self.min_temperature) & (self.temperature_value <= self.max_temperature))
+                & ((self.humidity_value >= self.min_humidity) & (self.humidity_value <= self.max_humidity)))
 
     def send_data(self):
         data = str(self.temperature_value) + ',' + str(self.humidity_value)
@@ -52,10 +52,10 @@ class RFCOMMSender:
     def execute(self):
         self.read_sensor_data()
         self.read_config()
-        #if self.data_within_range():
-        self.find_and_connect_service()
-        self.send_data()
-        self.disconnect()
+        if self.data_within_range():
+            self.find_and_connect_service()
+            self.send_data()
+            self.disconnect()
             
 
 
