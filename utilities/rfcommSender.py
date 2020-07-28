@@ -33,6 +33,7 @@ class RFCOMMSender:
                 host = first_match["host"]
                 print("connecting to \"%s\" on %s" % (name, host))
                 self.sock.connect((host, port))
+                return
 
     def read_sensor_data(self):
         self.temperature_value = self.sense.get_temperature()
