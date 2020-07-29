@@ -3,7 +3,7 @@ from utilities.pushbullet import PushBullet
 from time import sleep, time
 from datetime import datetime
 from sense_hat import SenseHat
-import json 
+import json, os
 
 class MonitorAndNotifier():
     SENSOR_DATA_COLLECT_PERIOD = 60 # seconds
@@ -33,7 +33,36 @@ class MonitorAndNotifier():
 
     def get_sensor_data(self):
         return {'humidity': round(self.sense.get_humidity()), 
-                'temperature': round(self.sense.get_temperature())}
+                'temperature': round(self.get_calibrated_temperature())}
+
+    # Get CPU temperature.
+    #TODO: cite
+    def get_cpu_temp(self):
+        res = os.popen("vcgencmd measure_temp").readline()
+        return float(res.replace("temp=","").replace("'C\n",""))
+
+    # Use moving average to smooth readings.
+    #TODO: cite
+    def get_smooth(self, x):
+        if not hasattr(self.get_smooth, "t"):
+            self.get_smooth.t = [x,x,x]
+        self.get_smooth.t[2] = self.get_smooth.t[1]
+        self.get_smooth.t[1] = self.get_smooth.t[0]
+        self.get_smooth.t[0] = x
+        return (self.get_smooth.t[0] + 
+                self.get_smooth.t[1] + 
+                self.get_smooth.t[2]) / 3
+
+    def get_calibrated_temperature(self):
+        #TODO: cite
+        t1 = self.sense.get_temperature_from_humidity()
+        t2 = self.sense.get_temperature_from_pressure()
+        t_cpu = self.get_cpu_temp()
+        
+        # Calculates the real temperature compesating CPU heating.
+        t = (t1 + t2) / 2
+        t_corr = t - ((t_cpu - t) / 1.5)
+        return self.get_smooth(t_corr)
 
     def is_outside_comfortable_range(self, sensor_data):
         if (not self.is_comfortable(sensor_data['temperature'])):
