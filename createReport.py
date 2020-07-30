@@ -58,11 +58,11 @@ class ReportCreator():
         # return (record['ftime'], status)
         status = 'BAD: {} the comfort temperature'
         diffs = list()
-        if (record['min_temp'] < self.config['comfortable_min']):
-            diff = self.config['comfortable_min'] - record['min_temp']
+        if (record['min_temp'] < self.config['temperature']['comfortable_min']):
+            diff = self.config['temperature']['comfortable_min'] - record['min_temp']
             diffs.append('{}*C below'.format(diff))
-        if (record['max_temp'] > self.config['comfortable_max']):
-            diff = record['max_temp'] - self.config['comfortable_max']
+        if (record['max_temp'] > self.config['temperature']['comfortable_max']):
+            diff = record['max_temp'] - self.config['temperature']['comfortable_max']
             diffs.append('{}*C above'.format(diff))
         if len(diffs) == 0:
             status = 'OK'

@@ -72,8 +72,8 @@ class MonitorAndNotifier():
         return False
 
     def is_comfortable(self, value):
-        return value in range(self.config['comfortable_min'], 
-                              self.config['comfortable_max'] + 1)
+        return value in range(self.config['temperature']['comfortable_min'], 
+                              self.config['temperature']['comfortable_max'] + 1)
 
     def is_notified_today(self):
         notification = self.database.fetch_latest_notification_record()

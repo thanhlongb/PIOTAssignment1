@@ -48,10 +48,10 @@ class ReadAndDisplayer():
             return self.RGB_HEX_GREEN
 
     def is_cold(self, temperature):
-        return (temperature <= self.config['cold_max'])
+        return (temperature <= self.config['temperature']['min'])
     
     def is_hot(self, temperature):
-        return (temperature >= self.config['hot_min'])
+        return (temperature >= self.config['temperature']['max'])
 
 if __name__ == '__main__':
     rad = ReadAndDisplayer()
