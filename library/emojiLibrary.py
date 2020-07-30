@@ -1,10 +1,10 @@
 import os
 from time import sleep
-from .emoji import Emoji
+from .pattern import Pattern
 from sense_hat import SenseHat
 
 class EmojiLibrary:
-    EMOJI_LIBRARY_PATH = 'emoji/library/'
+    EMOJI_LIBRARY_PATH = 'library/emoji'
     EMOJI_FILE_EXTENSION = '.emo'
 
     SENSE_HAT_LED_BLINK_PERIOD = 3 # seconds
@@ -20,7 +20,7 @@ class EmojiLibrary:
                 self.add(os.path.join(self.EMOJI_LIBRARY_PATH, file))
 
     def add(self, file):
-        self.emoji_library.append(Emoji(file))
+        self.emoji_library.append(Pattern(file))
 
     def display_all(self, sense, period = SENSE_HAT_LED_BLINK_PERIOD):
         for emoji in self.emoji_library:

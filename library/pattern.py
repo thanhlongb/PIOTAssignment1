@@ -1,6 +1,6 @@
 import os
 
-class Emoji:
+class Pattern:
     RGB_HEX_RED = (255, 0, 0)
     RGB_HEX_GREEN = (0, 255, 0)
     RGB_HEX_BLUE = (0, 0, 255)
@@ -12,18 +12,18 @@ class Emoji:
     }
     PIXELS_COUNT_CONSTRAINT = 64
 
-    def __init__(self, emoji_file):
+    def __init__(self, pattern_file):
         self.pixels = list()    
         try:
-            self.read_pixels(emoji_file)
+            self.read_pixels(pattern_file)
         except Exception:
             self.set_pixels_to_default()    
         self.mapping_color_code_to_rgb_hex()
 
     def read_pixels(self, file):
         pixels = list()
-        with open(file, 'r') as emoji_file:
-            for line in emoji_file:
+        with open(file, 'r') as pattern_file:
+            for line in pattern_file:
                 buffer_pixels = [pixel.strip() for pixel in line.split(',')]
                 pixels.extend(buffer_pixels)
         if (len(pixels) != self.PIXELS_COUNT_CONSTRAINT):
