@@ -50,7 +50,7 @@ class ReadAndDisplayer():
     def is_cold(self, temperature):
         return (temperature <= self.config['temperature']['min'])
     
-    def is_hot(self, temperature):
+    def is_hot(self, temperature):  
         return (temperature >= self.config['temperature']['max'])
 
 if __name__ == '__main__':
