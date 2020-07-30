@@ -1,0 +1,14 @@
+{
+    "temperature": {
+        "min": 10,
+        "max": 40,
+        "comforatable_min": 20,
+        "comfortable_max": 40
+    },
+    "humidity": {
+        "min": 40,
+        "max": 70,
+        "comfortable_min": 50,
+        "comfortable_max": 60
+    }
+}
