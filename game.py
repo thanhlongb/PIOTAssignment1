@@ -9,7 +9,6 @@ class DieRollingGame():
     SCROLL_SPEED = 0.05
     TEXT_COLOUR = [100,100,100]
     
-
     def __init__(self):
         self.players_score = [0,0]
         self.player_turn = 0
@@ -34,7 +33,7 @@ class DieRollingGame():
         self.show_message("Player %d score is %d" %(self.player_turn + 1, self.players_score[self.player_turn]))
 
     def check_winner(self):
-        if self.players_score[self.player_turn] > 30:
+        if self.players_score[self.player_turn] >= 30:
             return self.player_turn
         else:
             return -1
