@@ -7,10 +7,20 @@ app = Flask(__name__)
 api = Api(app)
 
 class API(Resource):
+    """
+    A API class with the following operations:
+        -   Allow RESTful GET requests to get the latest sensor data.
+        -   Allow RESTful POST requests to add new sensor data.
+        -   Allow RESTful PUT requests to update latest sensor data.
+    """    
+
     def __init__(self):
         self.database = Database()
 
     def get(self):
+        '''
+        Return the latest sensor data in JSON format.
+        '''
         sensor_data = self.database.fetch_latest_sensor_data_record()
         response_data = {"timestamp": sensor_data['time'],
                         "humidity": sensor_data['humidity'],
@@ -18,6 +28,9 @@ class API(Resource):
         return response_data, 200
     
     def post(self):
+        '''
+        API endpoint for adding a new sensor data record. 
+        '''
         temperature = request.form['temperature']
         humidity = request.form['humidity']
         if (self.database.add_sensor_data_record(humidity, temperature)):
@@ -26,6 +39,9 @@ class API(Resource):
             return {"success": False}, 500
 
     def put(self):
+        '''
+        API endpoint for updating the latest sensor data record. 
+        '''
         temperature = request.form['temperature']
         humidity = request.form['humidity']
         sensor_data = self.database.fetch_latest_sensor_data_record()
