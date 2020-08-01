@@ -1,3 +1,4 @@
+import os
 import sys
 import bluetooth
 from utilities.rfcommReceiver import RFCOMMReceiver
@@ -45,9 +46,10 @@ class Bluetooth():
         exist in the crontab.
         """
         cron = CronTab(user='pi')
-        cron_command = 'sudo hciconfig hci0 piscan \
-                        && python3 /home/pi/Desktop/PIOTAssignment1/bluetoothh.py ' \
-                        + self.device_name
+        bluetooth_on_command = 'sudo hciconfig hci0 piscan && python3 '
+        path_to_dir = os.path.dirname(os.path.realpath(__file__))
+        absolute_path = path_to_dir + '/bluetoothh.py '
+        cron_command = bluetooth_on_command + absolute_path + self.device_name
         cron_command_found = cron.find_command(cron_command)
         if len(list(cron_command_found)) == 0:
             job = cron.new(command=cron_command)
