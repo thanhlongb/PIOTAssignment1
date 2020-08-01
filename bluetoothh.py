@@ -62,6 +62,6 @@ class Bluetooth():
         self.device.execute()
 
 
-if _name_ == "main":
+if __name__ == "main":
     BLUETOOTH = Bluetooth()
     BLUETOOTH.run()
