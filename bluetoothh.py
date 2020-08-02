@@ -48,7 +48,7 @@ class Bluetooth():
         run_command = ' && python3 bluetoothh.py ' + self.device_name
         command = bluetooth_on_command + run_command
         cron = CronJob(command)
-        cron.set_job()
+        cron.set_job('taskC')
 
     def run(self):
         """

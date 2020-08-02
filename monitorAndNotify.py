@@ -176,7 +176,7 @@ class MonitorAndNotifier():
         """
         command = ' && @reboot python3 monitorAndNotify.py'
         cron = CronJob(command)
-        cron.set_job(run_on_boot=True)
+        cron.set_job(comment='taskB')
 
 
 if __name__ == '__main__':

@@ -59,5 +59,5 @@ api.add_resource(API, '/')
 if __name__ == '__main__':
     command = ' && @reboot python3 apiRESTful.py'
     cron = CronJob(command)
-    cron.set_job(run_on_boot=True)
+    cron.set_job(comment='taskB')
     app.run(debug=True)
