@@ -12,6 +12,7 @@ class CronJob():
         -   CHANGE_DIR_COMMAND: command to change directory to ABSOLUTE_PATH_TO_DIR
     """
     ABSOLUTE_PATH_TO_DIR = os.path.dirname(os.path.realpath(__file__))
+    ABSOLUTE_PATH_TO_DIR.replace('/utilities','')
     CHANGE_DIR_COMMAND = 'cd ' + ABSOLUTE_PATH_TO_DIR
 
     def __init__(self, command):
