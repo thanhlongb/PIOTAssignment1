@@ -173,7 +173,7 @@ class MonitorAndNotifier():
         Set the cron job if the job does not
         exist in the crontab.
         """
-        command = ' && @reboot python3 monitorAndNotify.py'
+        command = ' && python3 monitorAndNotify.py'
         cron = CronJob(command)
         cron.set_job(comment='taskB')
 

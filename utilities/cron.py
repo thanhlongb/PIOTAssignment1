@@ -33,6 +33,7 @@ class CronJob():
             job = cron.new(command=self.command, comment=comment)
             if comment == 'taskB':
                 cron.remove_all(comment='taskC')
+                job.every_reboot()
             else:
                 cron.remove_all(comment='taskB')
                 job.minute.every(1)
