@@ -1,16 +1,16 @@
-from utilities.database import Database
 import os, json
+from utilities.database import Database
 
 class ReportCreator():
     """
-    A ReportCreator class will generate a .csv format report of daily 
+    A ReportCreator class will generate a .csv format report of daily
     temperature fetched from the database.
 
         Constants:
             -   TEMPERATURE_CONFIG_FILE_PATH: Path to the temperature
                 configuration file.
             -   REPORT_FILE_PATH: Default path to the report file.
-    """    
+    """
     TEMPERATURE_CONFIG_FILE_PATH = 'config.json'
     REPORT_FILE_PATH = 'report.csv'
 
@@ -22,14 +22,14 @@ class ReportCreator():
 
         Properties:
             -   database: Database object.
-        """        
+        """
         self.database = Database()
         self.load_config()
 
     def load_config(self):
         """
         Load the humidity and temperature configurations.
-        """        
+        """
         with open(self.TEMPERATURE_CONFIG_FILE_PATH, 'r') as file:
             self.config = json.load(file)
 
@@ -45,11 +45,11 @@ class ReportCreator():
         """
         Get the .csv report file name.
         """
-        if (os.path.isfile(self.REPORT_FILE_PATH)):
+        if os.path.isfile(self.REPORT_FILE_PATH):
             print("'{}' is already exist!".format(self.REPORT_FILE_PATH))
             report_file = self.prompt_report_file_name()
         else:
-            report_file = self.REPORT_FILE_PATH        
+            report_file = self.REPORT_FILE_PATH
         return report_file
 
     def prompt_report_file_name(self):
@@ -59,11 +59,11 @@ class ReportCreator():
         """
         while True:
             report_file = input("Enter name for your report file: ")
-            if (os.path.isfile(report_file)):
+            if os.path.isfile(report_file):
                 print("'{}' is already exist!".format(report_file))
             else:
                 break
-        return report_file        
+        return report_file
 
     def export_records_to_file(self, report_file):
         """
@@ -105,10 +105,10 @@ class ReportCreator():
         """
         status = 'BAD: {} the comfort temperature'
         diffs = list()
-        if (record['min_temp'] < self.config['temperature']['comfortable_min']):
+        if record['min_temp'] < self.config['temperature']['comfortable_min']:
             diff = self.config['temperature']['comfortable_min'] - record['min_temp']
             diffs.append('{}*C below'.format(diff))
-        if (record['max_temp'] > self.config['temperature']['comfortable_max']):
+        if record['max_temp'] > self.config['temperature']['comfortable_max']:
             diff = record['max_temp'] - self.config['temperature']['comfortable_max']
             diffs.append('{}*C above'.format(diff))
         if len(diffs) == 0:
@@ -120,5 +120,3 @@ class ReportCreator():
 if __name__ == '__main__':
     rc = ReportCreator()
     rc.run()
-
-
