@@ -83,7 +83,7 @@ class ElectronicDie():
         Main flow program.
         """
         while True:
-            self.show_message("Please roll your dice")
+            self.show_message("Please roll your die")
             die_num_rolled = self.roll_die()
             self.show_message("The die number is %d " % (die_num_rolled))
 
