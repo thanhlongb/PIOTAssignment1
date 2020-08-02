@@ -53,17 +53,11 @@ class API(Resource):
         else: 
             return {"success": False}, 500
 
-    def set_cron_job(self):
-        """
-        Set the cron job if the job does not
-        exist in the crontab.
-        """
-        command = ' && @reboot python3 apiRESTful.py'
-        cron = CronJob(command)
-        cron.set_job(run_on_boot=True)
 
 api.add_resource(API, '/')
 
 if __name__ == '__main__':
-    api.set_cron_job()
+    command = ' && @reboot python3 apiRESTful.py'
+    cron = CronJob(command)
+    cron.set_job(run_on_boot=True)
     app.run(debug=True)
