@@ -2,7 +2,7 @@
     "temperature": {
         "min": 10,
         "max": 100,
-        "comforatable_min": 20,
+        "comfortable_min": 20,
         "comfortable_max": 40
     },
     "humidity": {
