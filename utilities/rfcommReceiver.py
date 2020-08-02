@@ -74,10 +74,10 @@ class RFCOMMReceiver:
         data = self.client_sock.recv(1024)
         data_string = data.decode('utf-8')
         data_split = data_string.split(",")
-        temperature = float(data_split[0])
-        humidity = float(data_split[1])
-        self.show_message("The temperature is %.1f" % (temperature))
-        self.show_message("The humidity is %.1f" % (humidity))
+        temperature = int(data_split[0])
+        humidity = int(data_split[1])
+        self.show_message("The temperature is %d" % (temperature))
+        self.show_message("The humidity is %d" % (humidity))
         print(data_string)
 
     def disconnect(self):

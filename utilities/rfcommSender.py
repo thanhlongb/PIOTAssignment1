@@ -1,7 +1,7 @@
 import json
 import bluetooth
 from sense_hat import SenseHat
-
+from ..monitorAndNotify import MonitorAndNotifier
 
 class RFCOMMSender:
     """
@@ -70,8 +70,10 @@ class RFCOMMSender:
         """
         Read temperature and humidity data from sense hat's sensors
         """
-        self.temperature_value = self.sense.get_temperature()
-        self.humidity_value = self.sense.get_humidity()
+        monitor = MonitorAndNotifier()
+        sensor_data = monitor.get_sensor_data()
+        self.temperature_value = sensor_data['temperature']
+        self.humidity_value = sensor_data['humidity']
 
     def data_within_range(self):
         """
