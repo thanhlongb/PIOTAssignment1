@@ -23,7 +23,7 @@ class CronJob():
         """
         self.command = self.CHANGE_DIR_COMMAND + command
     
-    def set_job(self):
+    def set_job(self, run_on_boot=False):
         """
         Set the command in the crontab if it does not exist.
         """
@@ -31,5 +31,6 @@ class CronJob():
         cron_command_found = cron.find_command(self.command)
         if len(list(cron_command_found)) == 0:
             job = cron.new(command=self.command)
-            job.minute.every(1)
+            if (run_on_boot == False):
+                job.minute.every(1)
             cron.write()
