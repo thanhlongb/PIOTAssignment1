@@ -1,6 +1,7 @@
 import sqlite3
 from time import time
 
+
 class Database:
     """
     A Database class with the following operations:
@@ -15,7 +16,7 @@ class Database:
         Variables:
             -   connection: connection to the system's database
             -   cursor: cursor of the connection of the system's database
-    """    
+    """
     DATBASE_FILE_PATH = 'database.db'
 
     connection = None
@@ -35,7 +36,7 @@ class Database:
         self.connection = sqlite3.connect(self.DATBASE_FILE_PATH)
         self.connection.row_factory = sqlite3.Row
         self.cursor = self.connection.cursor()
-    
+
     def cleanup(self):
         '''
         Close database connection when this object is destroyed
@@ -55,23 +56,23 @@ class Database:
         Create SensorData table for the system
         '''
         query = '''CREATE TABLE IF NOT EXISTS SensorData(
-                    time TIMESTAMP, 
-                    humidity INT, 
+                    time TIMESTAMP,
+                    humidity INT,
                     temperature INT
-                )''' 
+                )'''
         self.cursor.execute(query)
-        self.connection.commit()        
+        self.connection.commit()
 
     def create_notification_table(self):
         '''
         Create Notification table for the system
         '''
         query = '''CREATE TABLE IF NOT EXISTS Notification(
-                    time TIMESTAMP, 
+                    time TIMESTAMP,
                     pushbullet_id VARCHAR(255)
-                )''' 
+                )'''
         self.cursor.execute(query)
-        self.connection.commit()        
+        self.connection.commit()
 
     def create_report_table(self):
         '''
@@ -79,11 +80,11 @@ class Database:
         '''
         query = '''CREATE TABLE IF NOT EXISTS Report(
                     time TIMESTAMP,
-                    date VAR_CHAR(10), 
+                    date VAR_CHAR(10),
                     status VARCHAR(255)
-                )''' 
+                )'''
         self.cursor.execute(query)
-        self.connection.commit()        
+        self.connection.commit()
 
     def add_sensor_data_record(self, humidity, temperature):
         '''
@@ -102,7 +103,7 @@ class Database:
         Add notification record to the Notification table
         '''
         query = '''INSERT INTO Notification VALUES (?,?)'''
-        try:    
+        try:
             self.cursor.execute(query, (round(time()), pushbullet_id))
             self.connection.commit()
             return True
@@ -115,7 +116,7 @@ class Database:
         '''
         query = '''INSERT INTO Report VALUES (?,?,?)'''
         try:
-            self.cursor.execute(query, (round(time()),date, status))
+            self.cursor.execute(query, (round(time()), date, status))
             self.connection.commit()
             return True
         except:
@@ -125,8 +126,8 @@ class Database:
         '''
         Fetch the newest sensor data record from the SensorData table
         '''
-        query = '''SELECT * 
-                    FROM SensorData 
+        query = '''SELECT *
+                    FROM SensorData
                     ORDER BY time DESC LIMIT 1'''
         self.cursor.execute(query)
         return self.cursor.fetchone()
@@ -138,12 +139,12 @@ class Database:
         query = '''SELECT strftime('%m/%d/%Y',
                                     time,
                                     'unixepoch',
-                                    'localtime') AS ftime, 
+                                    'localtime') AS ftime,
                           MAX(temperature) AS max_temp,
                           MIN(temperature) AS min_temp
-                    FROM SensorData 
+                    FROM SensorData
                     GROUP BY ftime
-                    ORDER BY time ASC'''                          
+                    ORDER BY time ASC'''
         self.cursor.execute(query)
         return self.cursor.fetchall()
 
@@ -151,8 +152,8 @@ class Database:
         '''
         Fetch newest notification record from the Notification table
         '''
-        query = '''SELECT * 
-                   FROM Notification 
+        query = '''SELECT *
+                   FROM Notification
                    ORDER BY time DESC LIMIT 1'''
         self.cursor.execute(query)
         return self.cursor.fetchone()
@@ -161,18 +162,18 @@ class Database:
         '''
         Fetch all report record from the Report table
         '''
-        query = '''SELECT * 
-                   FROM Report 
+        query = '''SELECT *
+                   FROM Report
                    ORDER BY date ASC'''
         self.cursor.execute(query)
         return self.cursor.fetchall()
-            
+
     def update_sensor_data_status(self, time, humidity, temperature):
         '''
         Update sensor data record in the SensorData table
         '''
         query = '''UPDATE SensorData
-                   SET humidity = ?, 
+                   SET humidity = ?,
                        temperature = ?
                    WHERE time = ?'''
         self.cursor.execute(query, (humidity, temperature, time))

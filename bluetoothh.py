@@ -1,9 +1,9 @@
-import os
 import sys
 import bluetooth
 from utilities.rfcommReceiver import RFCOMMReceiver
 from utilities.rfcommSender import RFCOMMSender
 from utilities.cron import CronJob
+
 
 class Bluetooth():
     """

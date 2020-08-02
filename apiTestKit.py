@@ -1,5 +1,6 @@
 import requests
 
+
 class APITestKit:
     """
     A APITestKit class with the following operations:
@@ -87,8 +88,9 @@ class APITestKit:
         '''
         temperature = input("Temperature: ")
         humidity = input("Humidity: ")
-        return  {"temperature": temperature,
-                 "humidity": humidity}
+        return {"temperature": temperature,
+                "humidity": humidity}
+
 
 if __name__ == '__main__':
     atk = APITestKit()

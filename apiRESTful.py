@@ -7,6 +7,7 @@ from utilities.cron import CronJob
 app = Flask(__name__)
 api = Api(app)
 
+
 class API(Resource):
     """
     A API class with the following operations:

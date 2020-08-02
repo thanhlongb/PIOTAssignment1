@@ -1,7 +1,7 @@
 import os
 from time import sleep
 from .pattern import Pattern
-from sense_hat import SenseHat
+
 
 class EmojiLibrary:
     """
@@ -23,18 +23,18 @@ class EmojiLibrary:
     EMOJI_LIBRARY_PATH = 'library/emoji'
     EMOJI_FILE_EXTENSION = '.emo'
 
-    SENSE_HAT_LED_BLINK_PERIOD = 3 # seconds
-    
-    emoji_library = list()  
+    SENSE_HAT_LED_BLINK_PERIOD = 3  # seconds
+
+    emoji_library = list()
 
     def __init__(self):
         self.scan()
-        
+
     def scan(self):
         """
         Find the absolute path with ending relative path to emoji
         config files and read those configurations to the list emoji_library.
-        """        
+        """
         for file in os.listdir(self.EMOJI_LIBRARY_PATH):
             if file.endswith(self.EMOJI_FILE_EXTENSION):
                 self.add(os.path.join(self.EMOJI_LIBRARY_PATH, file))
@@ -45,10 +45,10 @@ class EmojiLibrary:
 
         Inputs:
             -   file: path to the .emo file
-        """        
+        """
         self.emoji_library.append(Pattern(file))
 
-    def display_all(self, sense, period = SENSE_HAT_LED_BLINK_PERIOD):
+    def display_all(self, sense, period=SENSE_HAT_LED_BLINK_PERIOD):
         """
         Display emoji from the emoji_library on the LED matrix
         of the sense hat one by one.
@@ -56,11 +56,11 @@ class EmojiLibrary:
         Inputs:
             -   sense: the Sense Hat object
             -   period: time between each emoji display
-        """        
+        """
         for emoji in self.emoji_library:
             self.display(sense, emoji)
             sleep(period)
-        self.display_all(sense) # for infiite loop
+        self.display_all(sense)  # for infiite loop
 
     def display(self, sense, emoji):
         """
@@ -69,5 +69,5 @@ class EmojiLibrary:
         Inputs:
             -   sense: the Sense Hat object
             -   emoji: list containing 8x8 LED matrix color config
-        """        
+        """
         sense.set_pixels(emoji.pixels)

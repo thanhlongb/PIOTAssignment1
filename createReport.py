@@ -1,5 +1,7 @@
-import os, json
+import os
+import json
 from utilities.database import Database
+
 
 class ReportCreator():
     """
@@ -117,6 +119,7 @@ class ReportCreator():
             status = status.format(' and '.join(diffs))
         return (record['ftime'], status)
 
+
 if __name__ == '__main__':
-    rc = ReportCreator()
-    rc.run()
+    RC = ReportCreator()
+    RC.run()

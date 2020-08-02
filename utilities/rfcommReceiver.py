@@ -1,5 +1,5 @@
-import bluetooth
 from sense_hat import SenseHat
+import bluetooth
 
 
 class RFCOMMReceiver:

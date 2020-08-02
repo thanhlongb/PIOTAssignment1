@@ -1,5 +1,5 @@
 import os
-import json 
+import json
 from time import sleep
 from datetime import datetime
 from sense_hat import SenseHat
@@ -24,7 +24,7 @@ class MonitorAndNotifier():
     Variables:
         -   config: system configurations read from the config.json file.
     """
-    SENSOR_DATA_COLLECT_PERIOD = 60 # seconds
+    SENSOR_DATA_COLLECT_PERIOD = 60  # seconds
     TEMPERATURE_CONFIG_FILE_PATH = 'config.json'
 
     config = dict()
@@ -82,7 +82,7 @@ class MonitorAndNotifier():
         Get calibrated temperature.
         Reference: RMIT - COSC2790 - Week 2 code archive
         """
-        #TODO: cite
+        # TODO: cite
         t1 = self.sense.get_temperature_from_humidity()
         t2 = self.sense.get_temperature_from_pressure()
         t_cpu = self.get_cpu_temp()
@@ -113,7 +113,7 @@ class MonitorAndNotifier():
         """
         Return true if the humidity is in comfortable range.
         """
-        return value in range(self.config['humidity']['comfortable_min'], 
+        return value in range(self.config['humidity']['comfortable_min'],
                               self.config['humidity']['comfortable_max']+1)
 
     def is_notified_today(self):
@@ -179,5 +179,5 @@ class MonitorAndNotifier():
 
 
 if __name__ == '__main__':
-    man = MonitorAndNotifier()
-    man.run()
+    MAN = MonitorAndNotifier()
+    MAN.run()

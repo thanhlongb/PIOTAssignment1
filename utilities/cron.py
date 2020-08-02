@@ -4,12 +4,13 @@ from crontab import CronTab
 
 class CronJob():
     """
-    A class which set the cron job if not 
+    A class which set the cron job if not
     exist in the crontab
 
     Constants:
         -   ABSOLUTE_PATH_TO_DIR: absolute path to the current directory
-        -   CHANGE_DIR_COMMAND: command to change directory to ABSOLUTE_PATH_TO_DIR
+        -   CHANGE_DIR_COMMAND: command to change directory
+            to ABSOLUTE_PATH_TO_DIR
     """
     ABSOLUTE_PATH_TO_DIR = os.path.dirname(os.path.realpath(__file__ + '/../'))
     CHANGE_DIR_COMMAND = 'cd ' + ABSOLUTE_PATH_TO_DIR
@@ -22,7 +23,7 @@ class CronJob():
             -   command: command that will be set in the cron job
         """
         self.command = self.CHANGE_DIR_COMMAND + command
-    
+
     def set_job(self, comment):
         """
         Set the command in the crontab if it does not exist.

@@ -1,8 +1,8 @@
 import csv
 import os
 from datetime import datetime
-from electronicDie import ElectronicDie
 from sense_hat import SenseHat
+from electronicDie import ElectronicDie
 
 
 class DieRollingGame():

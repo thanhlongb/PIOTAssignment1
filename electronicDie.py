@@ -1,5 +1,5 @@
-from library.diceLibrary import DiceLibrary
 from sense_hat import SenseHat
+from library.diceLibrary import DiceLibrary
 
 
 class ElectronicDie():

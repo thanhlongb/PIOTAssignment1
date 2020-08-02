@@ -4,6 +4,7 @@ from sense_hat import SenseHat
 from utilities.database import Database
 from utilities.cron import CronJob
 
+
 class ReadAndDisplayer():
     """
     An ReadAndDisplayer which constantly reading the sensor data
@@ -28,7 +29,7 @@ class ReadAndDisplayer():
     RGB_HEX_BLACK = (0, 0, 0)
 
     TEXT_SCROLL_SPEED = 0.1
-    TEMPERATURE_DISPLAY_TIME = 60 # 1 minute
+    TEMPERATURE_DISPLAY_TIME = 60  # 1 minute
     TEMPERATURE_CONFIG_FILE_PATH = 'config.json'
 
     def __init__(self):
@@ -104,5 +105,5 @@ class ReadAndDisplayer():
 
 
 if __name__ == '__main__':
-    rad = ReadAndDisplayer()
-    rad.run()
+    RAD = ReadAndDisplayer()
+    RAD.run()
