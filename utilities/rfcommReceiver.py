@@ -45,14 +45,12 @@ class RFCOMMReceiver:
         self.server_sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
         self.server_sock.bind(("", self.PORT))
         self.server_sock.listen(1)
-        print("listening on port %d" % self.PORT)
         bluetooth.advertise_service(
             self.server_sock,
             "Sensor Service",
             self.UUID
         )
         self.client_sock, client_address = self.server_sock.accept()
-        print("Accepted connection from ", client_address)
 
     def show_message(self, message):
         """
@@ -78,7 +76,6 @@ class RFCOMMReceiver:
         humidity = int(data_split[1])
         self.show_message("The temperature is %d" % (temperature))
         self.show_message("The humidity is %d" % (humidity))
-        print(data_string)
 
     def disconnect(self):
         """

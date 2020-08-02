@@ -63,7 +63,6 @@ class RFCOMMSender:
                 port = first_match["port"]
                 name = first_match["name"]
                 host = first_match["host"]
-                print("connecting to \"%s\" on %s" % (name, host))
                 self.sock.connect((host, port))
                 return
 
