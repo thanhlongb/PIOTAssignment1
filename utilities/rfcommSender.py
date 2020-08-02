@@ -1,7 +1,7 @@
 import json
 import bluetooth
 from sense_hat import SenseHat
-from ..monitorAndNotify import MonitorAndNotifier
+from monitorAndNotify import MonitorAndNotifier
 
 class RFCOMMSender:
     """
