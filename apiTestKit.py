@@ -9,7 +9,7 @@ class APITestKit:
 
         Constants:
             -   SERVER_URL: Url of the API server.
-    """    
+    """
     SERVER_URL = 'http://127.0.0.1:5000/'
     MANUAL_TEXT = '''Available options:
     1. Get newest temperature, humidity, timestamp
@@ -27,18 +27,18 @@ class APITestKit:
         while True:
             print(self.MANUAL_TEXT)
             option = input("Your option: ")
-            if (option == '1'):
+            if option == '1':
                 self.send_get_request()
-            elif (option == '2'):
+            elif option == '2':
                 self.send_post_request()
-            elif (option == '3'):
+            elif option == '3':
                 self.send_put_request()
-            elif (option == '4'):
+            elif option == '4':
                 break
             else:
                 print(">> Invalid option.")
         print(">> Goodbye.")
-            
+
     def send_get_request(self):
         '''
         Send RESTful GET request to the API server.
@@ -57,11 +57,11 @@ class APITestKit:
         sensor_data = self.prompt_sensor_data()
         try:
             response = requests.post(self.SERVER_URL,
-                                    data = sensor_data).json()
+                                     data=sensor_data).json()
         except:
             print(">> Can't connect.")
             return
-        if (response['success']):
+        if response['success']:
             print(">> Success.")
         else:
             print(">> Failed.")
@@ -72,23 +72,22 @@ class APITestKit:
         '''
         sensor_data = self.prompt_sensor_data()
         try:
-            response = requests.put(self.SERVER_URL,
-                                    data = sensor_data).json()
+            response = requests.put(self.SERVER_URL, data=sensor_data).json()
         except:
             print(">> Can't connect.")
             return
-        if (response['success']):
+        if response['success']:
             print(">> Success.")
         else:
             print(">> Failed.")
-    
+
     def prompt_sensor_data(self):
         '''
         Prompt sensor data from the user.
         '''
         temperature = input("Temperature: ")
         humidity = input("Humidity: ")
-        return  {"temperature": temperature, 
+        return  {"temperature": temperature,
                  "humidity": humidity}
 
 if __name__ == '__main__':

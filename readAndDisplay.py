@@ -1,12 +1,12 @@
-from utilities.database import Database
-from time import sleep, time
-from sense_hat import SenseHat
 import json
+from time import time
+from sense_hat import SenseHat
+from utilities.database import Database
 
 class ReadAndDisplayer():
     """
     An ReadAndDisplayer which constantly reading the sensor data
-    from the database after a period of time and displaying the 
+    from the database after a period of time and displaying the
     temperture on sense hat LED display.
 
     Constants:
@@ -14,7 +14,7 @@ class ReadAndDisplayer():
             on the LED matrix.
         -   TEMPERATURE_DISPLAY_TIME: The duration the temperature displays
             on the sensehat LED matrix.
-        -   TEMPERATURE_CONFIG_FILE_PATH: Path to the temperature 
+        -   TEMPERATURE_CONFIG_FILE_PATH: Path to the temperature
             configuration file.
 
     Variables:
@@ -25,7 +25,7 @@ class ReadAndDisplayer():
     RGB_HEX_GREEN = (0, 255, 0)
     RGB_HEX_BLUE = (0, 0, 255)
     RGB_HEX_BLACK = (0, 0, 0)
-    
+
     TEXT_SCROLL_SPEED = 0.1
     TEMPERATURE_DISPLAY_TIME = 60 # 1 minute
     TEMPERATURE_CONFIG_FILE_PATH = 'config.json'
@@ -37,7 +37,7 @@ class ReadAndDisplayer():
         Properties:
             -   sense: sense_hat object.
             -   database: Database object.
-        """        
+        """
         self.database = Database()
         self.sense = SenseHat()
         self.load_config()
@@ -45,7 +45,7 @@ class ReadAndDisplayer():
     def load_config(self):
         """
         Load the humidity and temperature configurations.
-        """     
+        """
         with open(self.TEMPERATURE_CONFIG_FILE_PATH, 'r') as file:
             self.config = json.load(file)
 
@@ -60,37 +60,36 @@ class ReadAndDisplayer():
     def display_temperature(self, temperature):
         """
         Display the temperature on the sensehat in a duration of time.
-        """             
+        """
         text_color = self.get_text_color_based_on_temperature(temperature)
         start_time = time()
         while time() - start_time < self.TEMPERATURE_DISPLAY_TIME:
-            self.sense.show_message(str(temperature), 
-                                    text_colour = text_color,
-                                    back_colour = self.RGB_HEX_BLACK,
-                                    scroll_speed = self.TEXT_SCROLL_SPEED)            
+            self.sense.show_message(str(temperature),
+                                    text_colour=text_color,
+                                    back_colour=self.RGB_HEX_BLACK,
+                                    scroll_speed=self.TEXT_SCROLL_SPEED)
 
     def get_text_color_based_on_temperature(self, temperature):
         """
         Get the text color based on the current temperature.
-        """             
-        if (self.is_cold(temperature)):
+        """
+        if self.is_cold(temperature):
             return self.RGB_HEX_BLUE
-        elif (self.is_hot(temperature)):
+        if self.is_hot(temperature):
             return self.RGB_HEX_RED
-        else:
-            return self.RGB_HEX_GREEN
+        return self.RGB_HEX_GREEN
 
     def is_cold(self, temperature):
         """
         Return true if the temperature is cold.
-        """             
-        return (temperature <= self.config['temperature']['comfortable_min'])
-    
-    def is_hot(self, temperature):  
+        """
+        return temperature <= self.config['temperature']['comfortable_min']
+
+    def is_hot(self, temperature):
         """
         Return true if the temperature is hot.
-        """             
-        return (temperature >= self.config['temperature']['comfortable_max'])
+        """
+        return temperature >= self.config['temperature']['comfortable_max']
 
 if __name__ == '__main__':
     rad = ReadAndDisplayer()
