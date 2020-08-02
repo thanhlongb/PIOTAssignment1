@@ -76,20 +76,6 @@ class MonitorAndNotifier():
         res = os.popen("vcgencmd measure_temp").readline()
         return float(res.replace("temp=","").replace("'C\n",""))
 
-    def get_smooth(self, x):
-        """
-        Use moving average to smooth readings.
-        Reference: RMIT - COSC2790 - Week 2 code archive
-        """
-        if not hasattr(self.get_smooth, "t"):
-            self.get_smooth.t = [x,x,x]
-        self.get_smooth.t[2] = self.get_smooth.t[1]
-        self.get_smooth.t[1] = self.get_smooth.t[0]
-        self.get_smooth.t[0] = x
-        return (self.get_smooth.t[0] + 
-                self.get_smooth.t[1] + 
-                self.get_smooth.t[2]) / 3
-
     def get_calibrated_temperature(self):
         """
         Get calibrated temperature.
@@ -103,7 +89,7 @@ class MonitorAndNotifier():
         # Calculates the real temperature compesating CPU heating.
         t = (t1 + t2) / 2
         t_corr = t - ((t_cpu - t) / 1.5)
-        return self.get_smooth(t_corr)
+        return t_corr
 
     def is_outside_comfortable_range(self, sensor_data):
         """
