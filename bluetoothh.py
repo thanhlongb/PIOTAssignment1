@@ -3,8 +3,7 @@ import sys
 import bluetooth
 from utilities.rfcommReceiver import RFCOMMReceiver
 from utilities.rfcommSender import RFCOMMSender
-from crontab import CronTab
-
+from utilities.cron import CronJob
 
 class Bluetooth():
     """
@@ -45,17 +44,11 @@ class Bluetooth():
         Set the cron job if the job does not
         exist in the crontab.
         """
-        cron = CronTab(user='pi')
-        absolute_path_to_dir = os.path.dirname(os.path.realpath(__file__))
-        change_dir_command = 'cd ' + absolute_path_to_dir
         bluetooth_on_command = ' && sudo hciconfig hci0 piscan'
         run_command = ' && python3 bluetoothh.py ' + self.device_name
-        cron_command = change_dir_command + bluetooth_on_command + run_command
-        cron_command_found = cron.find_command(cron_command)
-        if len(list(cron_command_found)) == 0:
-            job = cron.new(command=cron_command)
-            job.minute.every(1)
-            cron.write()
+        command = bluetooth_on_command + run_command
+        cron = CronJob(command)
+        cron.set_job()
 
     def run(self):
         """

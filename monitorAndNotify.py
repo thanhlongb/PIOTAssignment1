@@ -3,7 +3,9 @@ from utilities.pushbullet import PushBullet
 from time import sleep, time
 from datetime import datetime
 from sense_hat import SenseHat
+from utilities.cron import CronJob
 import json, os
+
 
 class MonitorAndNotifier():
     """
@@ -49,6 +51,7 @@ class MonitorAndNotifier():
         """
         Main flow of the class.
         """
+        self.set_cron_job()
         while True:
             sensor_data = self.get_sensor_data()
             self.database.add_sensor_data_record(*sensor_data.values())
@@ -179,6 +182,16 @@ class MonitorAndNotifier():
         body =  'Current temperature: {}.\nCurrent humidity: {}.'
         return body.format(sensor_data['temperature'],
                            sensor_data['humidity'])
+
+    def set_cron_job(self):
+        """
+        Set the cron job if the job does not
+        exist in the crontab.
+        """
+        command = ' && python3 monitorAndNotify.py'
+        cron = CronJob(command)
+        cron.set_job()
+
 
 if __name__ == '__main__':
     man = MonitorAndNotifier()

@@ -1,6 +1,7 @@
 from utilities.database import Database
 from time import sleep, time
 from sense_hat import SenseHat
+from utilities.cron import CronJob
 import json
 
 class ReadAndDisplayer():
@@ -53,6 +54,7 @@ class ReadAndDisplayer():
         """
         Main flow of the class
         """
+        self.set_cron_job()
         while True:
             sensor_data = self.database.fetch_latest_sensor_data_record()
             self.display_temperature(sensor_data['temperature'])
@@ -91,6 +93,16 @@ class ReadAndDisplayer():
         Return true if the temperature is hot.
         """             
         return (temperature >= self.config['temperature']['comfortable_max'])
+
+    def set_cron_job(self):
+        """
+        Set the cron job if the job does not
+        exist in the crontab.
+        """
+        command = ' && python3 readAndDisplay.py'
+        cron = CronJob(command)
+        cron.set_job()
+
 
 if __name__ == '__main__':
     rad = ReadAndDisplayer()

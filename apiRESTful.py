@@ -1,6 +1,7 @@
 from flask import Flask, request
 from flask_restful import Resource, Api
 from utilities.database import Database
+from utilities.cron import CronJob
 import json
 
 app = Flask(__name__)
@@ -52,8 +53,17 @@ class API(Resource):
         else: 
             return {"success": False}, 500
 
+    def set_cron_job(self):
+        """
+        Set the cron job if the job does not
+        exist in the crontab.
+        """
+        command = ' && python3 apiRESTful.py'
+        cron = CronJob(command)
+        cron.set_job()
 
 api.add_resource(API, '/')
 
 if __name__ == '__main__':
+    api.set_cron_job()
     app.run(debug=True)
